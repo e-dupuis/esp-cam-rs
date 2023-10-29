@@ -1,0 +1,3 @@
+[esp-cam-rs]
+wifi_ssid = "SSID"
+wifi_psk = "PSK"
