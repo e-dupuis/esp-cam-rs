@@ -1,4 +1,7 @@
-use embedded_svc::http::{client::Client as HttpClient, Method};
+use embedded_svc::{
+    http::{client::Client as HttpClient, Method},
+    io::Read,
+};
 use esp_idf_hal::peripherals::Peripherals;
 use esp_idf_svc::{
     eventloop::EspSystemEventLoop,
@@ -88,7 +91,7 @@ fn wifi_connect(
 fn get(url: impl AsRef<str>) -> anyhow::Result<()> {
     // 1. Create a new EspHttpConnection with default Configuration. (Check documentation)
     info!("Init connection");
-    let connection = esp_idf_svc::http::client::EspHttpConnection::new(
+    let _connection = esp_idf_svc::http::client::EspHttpConnection::new(
         &esp_idf_svc::http::client::Configuration::default(),
     );
     // 2. Get a client using the Client::wrap method. (Check documentation)
@@ -102,18 +105,35 @@ fn get(url: impl AsRef<str>) -> anyhow::Result<()> {
 
     // 4. Submit the request and check the status code of the response.
     info!("-> GET {}", url.as_ref());
-    let response = request.submit()?;
+    let mut response = request.submit()?;
     let status = response.status();
     info!("Response code: {}\n", status);
     match status {
         200..=299 => Ok(()),
-        default => Err(status),
+        _ => Err(status),
     };
     // Successful http status codes are in the 200..=299 range.
 
     // 5. If the status is OK, read response data chunk by chunk into a buffer and print it until done.
+    info!("Read response");
+    let mut buf = [0u8; 1024];
+    let mut read_count = 0;
+    let mut parsed_response = String::from("");
+
+    loop {
+        let read_bytes = Read::read(&mut response, &mut buf).expect("Error reading response");
+        match read_bytes > 0 {
+            true => {
+                read_count += read_bytes;
+                parsed_response += std::str::from_utf8(&buf).expect("Failed to parse buffer");
+            }
+            false => break,
+        }
+    }
 
     // 6. Try converting the bytes into a Rust (UTF-8) string and print it.
+    info!("Received response: {}", parsed_response);
+    info!("Parsed {} bytes", read_count);
     // }
 
     Ok(())
