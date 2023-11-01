@@ -28,8 +28,23 @@ fn main() {
 
     info!("Hello, Théo!");
 
+    // Get config with wifi credentials
     let app_config: Config = CONFIG;
 
+    // Connect to wifi using credentials and peripherals
+    let _wifi_driver = wifi_connect(peripherals, sys_loop, nvs, app_config);
+
+    loop {
+        sleep(Duration::new(10, 0));
+    }
+}
+
+fn wifi_connect(
+    peripherals: Peripherals,
+    sys_loop: esp_idf_svc::eventloop::EspEventLoop<esp_idf_svc::eventloop::System>,
+    nvs: esp_idf_svc::nvs::EspNvsPartition<esp_idf_svc::nvs::NvsDefault>,
+    app_config: Config,
+) -> EspWifi<'static> {
     let mut wifi_driver: EspWifi<'_> =
         EspWifi::new(peripherals.modem, sys_loop, Some(nvs)).unwrap();
 
@@ -48,12 +63,13 @@ fn main() {
         let config = wifi_driver.get_configuration().unwrap();
         println!("Waiting for station {:?}", config);
     }
-    println!("Should be connected now");
-    loop {
-        println!(
-            "IP info: {:?}",
-            wifi_driver.sta_netif().get_ip_info().unwrap()
-        );
-        sleep(Duration::new(10, 0));
-    }
+    info!("Should be connected now");
+
+    //log IP info
+    info!(
+        "IP info: {:?}",
+        wifi_driver.sta_netif().get_ip_info().unwrap()
+    );
+
+    wifi_driver
 }
