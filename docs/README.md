@@ -1,3 +1,27 @@
+
+# My humble journey
+
+Get esp idf
+https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/linux-macos-setup.html#get-started-get-esp-idf
+
+follow the esp rust book
+https://esp-rs.github.io/book/writing-your-own-application/generate-project/index.html
+
+Which board do I have ? 
+ESP32-s ???
+
+WIFI
+esp wifi https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_wifi.html
+and https://medium.com/@rajeshpachaikani/connect-esp32-to-wifi-with-rust-7d12532f539b
+with the config cf.toml from https://github.com/esp-rs/std-training/tree/main/intro/http-server
+
+
+HTTP Client
+https://esp-rs.github.io/std-training/03_3_2_http_client.html
+https://github.com/esp-rs/std-training/blob/main/intro/http-client/src/main.rs
+
+
+
 # esp_cam_rs
 
 ## Dev Containers
@@ -76,24 +100,3 @@ For more information and details on how to use the Wokwi extension, see [Getting
 [Getting Started]: https://docs.wokwi.com/vscode/getting-started
 [Debugging your code]: https://docs.wokwi.com/vscode/debugging
 
-
-# My humble journey
-
-Get esp idf
-https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/linux-macos-setup.html#get-started-get-esp-idf
-
-follow the esp rust book
-https://esp-rs.github.io/book/writing-your-own-application/generate-project/index.html
-
-Which board do I have ? 
-ESP32-s ???
-
-WIFI
-esp wifi https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_wifi.html
-and https://medium.com/@rajeshpachaikani/connect-esp32-to-wifi-with-rust-7d12532f539b
-with the config cf.toml from https://github.com/esp-rs/std-training/tree/main/intro/http-server
-
-
-HTTP Client
-https://esp-rs.github.io/std-training/03_3_2_http_client.html
-https://github.com/esp-rs/std-training/blob/main/intro/http-client/src/main.rs
