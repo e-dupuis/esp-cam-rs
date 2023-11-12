@@ -46,9 +46,9 @@ fn main() -> anyhow::Result<()> {
     )?;
 
     // Connect to wifi using credentials and peripherals
-    wifi_connect(&mut wifi_driver, &app_config);
+    let _ = wifi_connect(&mut wifi_driver, &app_config);
 
-    get("http://mayeul.net/");
+    let _ = get("https://mayeul.net/");
 
     loop {
         sleep(Duration::new(10, 0));
@@ -108,7 +108,7 @@ fn get(url: impl AsRef<str>) -> anyhow::Result<()> {
     let mut response = request.submit()?;
     let status = response.status();
     info!("Response code: {}\n", status);
-    match status {
+    let _ = match status {
         200..=299 => Ok(()),
         _ => Err(status),
     };
